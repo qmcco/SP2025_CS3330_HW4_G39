@@ -1,5 +1,5 @@
 package hw4.player.test;
-
+import hw4.maze.test.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.ArrayList;
