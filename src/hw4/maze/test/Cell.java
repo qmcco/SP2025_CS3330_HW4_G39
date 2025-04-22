@@ -1,12 +1,25 @@
 package hw4.maze.test;
 
 public class Cell {
-	private CellComponents up = null;
-	private CellComponents down = null;
-	private CellComponents left = null;
-	private CellComponents right = null;
+	private CellComponents up;
+	private CellComponents down;
+	private CellComponents left;
+	private CellComponents right;
+	private int wallCount;
 	
-	public Cell(CellComponents up, CellComponents down, CellComponents left, CellComponents right) {
+	public Cell(CellComponents left, CellComponents right, CellComponents up, CellComponents down) {
+		if(up == CellComponents.WALL) {
+			wallCount++;
+		}
+		if(down == CellComponents.WALL) {
+			wallCount++;
+		}
+		if(left == CellComponents.WALL) {
+			wallCount++;
+		}
+		if(right == CellComponents.WALL) {
+			wallCount++;
+		}
 		this.up = up;
 		this.down = down;
 		this.left = left;
@@ -18,6 +31,12 @@ public class Cell {
 	}
 	
 	public void setUp(CellComponents newUp) {
+		if(this.up == CellComponents.WALL) {
+			wallCount--;
+		}
+		if(newUp == CellComponents.WALL) {
+			wallCount++;
+		}
 		this.up = newUp;
 	}
 	
@@ -26,6 +45,12 @@ public class Cell {
 	}
 	
 	public void setDown(CellComponents newDown) {
+		if(this.down == CellComponents.WALL) {
+			wallCount--;
+		}
+		if(newDown == CellComponents.WALL) {
+			wallCount++;
+		}
 		this.down = newDown;
 	}
 	
@@ -34,6 +59,12 @@ public class Cell {
 	}
 	
 	public void setLeft(CellComponents newLeft) {
+		if(this.left == CellComponents.WALL) {
+			wallCount--;
+		}
+		if(newLeft == CellComponents.WALL) {
+			wallCount++;
+		}
 		this.left = newLeft;
 	}
 	
@@ -42,7 +73,16 @@ public class Cell {
 	}
 	
 	public void setRight(CellComponents newRight) {
+		if(this.right == CellComponents.WALL) {
+			wallCount--;
+		}
+		if(newRight == CellComponents.WALL) {
+			wallCount++;
+		}
 		this.right = newRight;
+	}
+	public int getWallCount() {
+		return wallCount;
 	}
 	
 	
