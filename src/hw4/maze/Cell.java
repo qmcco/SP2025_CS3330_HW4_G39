@@ -1,6 +1,4 @@
-package hw4.maze.test;
-
-import hw4.maze.CellComponents;
+package hw4.maze;
 
 public class Cell {
 	private CellComponents up;

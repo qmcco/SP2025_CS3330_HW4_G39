@@ -1,4 +1,4 @@
-package hw4.player.test;
+package hw4.player;
 
 import java.util.ArrayList;
 
@@ -22,11 +22,13 @@ public class Player {
 		this.currentRow = newCurrentRow;
 	}
 	
-	public Cell getCurrentCell() {
-		return currentCell;
-	}
+	
 	
 	public void setCurrentCell(Cell newCurrentCell) {
 		this.currentCell = newCurrentCell;
+	}
+
+	public Cell getCurrentCell() {
+		return currentCell;
 	}
 }

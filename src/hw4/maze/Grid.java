@@ -1,4 +1,4 @@
-package hw4.maze.test;
+package hw4.maze;
 
 import java.util.ArrayList;
 
@@ -6,6 +6,7 @@ public class Grid {
 	private ArrayList<Row> rows;
 	
 	public Grid(ArrayList<Row> rows) {
+		this.rows = new ArrayList<Row>();
 		for(int i = 0; i < rows.size(); i++) {
 			this.rows.add(rows.get(i));
 		}

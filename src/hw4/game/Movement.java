@@ -1,4 +1,4 @@
-package hw4.game.test;
+package hw4.game;
 
 public enum Movement {
 	UP,
