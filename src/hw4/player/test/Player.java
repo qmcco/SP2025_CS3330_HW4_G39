@@ -6,25 +6,20 @@ import hw4.maze.test.Cell;
 import hw4.maze.test.Row;
 
 public class Player {
-	private ArrayList<Row> currentRow;
+	private Row currentRow;
 	private Cell currentCell;
 	
-	public Player(ArrayList<Row> currentRow, Cell currentCell) {
+	public Player(Row currentRow, Cell currentCell) {
 		this.currentCell = currentCell;
-		for(int i = 0; i < currentRow.size(); i++) {
-			this.currentRow.add(currentRow.get(i));
-		}
+		this.currentRow = currentRow;
 	}
 	
-	public ArrayList<Row> getCurrentRow(){
+	public Row getCurrentRow(){
 		return currentRow;
 	}
 	
-	public void setCurrentRow(ArrayList<Row> newCurrentRow) {
-		this.currentRow.clear();
-		for(int i = 0; i < newCurrentRow.size(); i++) {
-			this.currentRow.add(newCurrentRow.get(i));
-		}
+	public void setCurrentRow(Row newCurrentRow) {
+		this.currentRow = newCurrentRow;
 	}
 	
 	public Cell getCurrentCell() {
