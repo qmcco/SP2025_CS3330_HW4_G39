@@ -7,172 +7,144 @@ import hw4.maze.CellComponents;
 import hw4.maze.Grid;
 import hw4.maze.Row;
 import hw4.player.Player;
+import hw4.game.test.*;
 
 import java.util.Random;
-
+/**
+ * Game class represents overall game state
+ */
 public class Game {
 	private Grid grid;
-	
+	/**
+	 * constructor
+	 * @param grid grid containing the board's rows of cells
+	 */
 	public Game(Grid grid) {
 		this.grid = grid;
 	}
-	
+	/**
+	 * constructor, given a size create random grid
+	 * @param size of random grid
+	 */
 	public Game(int size) {
 		createRandomGrid(size);
 	}
 	
+	/**
+	 * get grid
+	 * @return grid
+	 */
 	public Grid getGrid() {
 		return grid;
 	}
 	
+	/**
+	 * set grid
+	 * @param newGrid new value of grid
+	 */
 	public void setGrid(Grid newGrid) {
 		this.grid = newGrid;
 	}
-	
+	/**
+	 * create a grid with random wall placements and random exit placement (with conditions that there must be walls at edges and exit must be on left hand side)
+	 * @param size of the random grid to generate
+	 * @return the generated random grid
+	 */
 	public Grid createRandomGrid(int size) {
 		if(size < 3 || size > 7) {
 			return null;
 		}
 		else {
+			ArrayList<Row> rowList = new ArrayList<Row>();
 			Random random = new Random();
 			int exitPos = random.nextInt(size);
-			//int actorRowPos = -1;
-			//int actorCellPos = -1;
-			//while((actorRowPos == -1 && actorCellPos == -1) || (actorRowPos == exitPos && actorCellPos == 0)) {
-			//	actorRowPos = random.nextInt(size);
-			//	actorCellPos = random.nextInt(size);
-			//}
-			ArrayList<Row> rowList = new ArrayList<Row>();
 			for(int i = 0; i < size; i++) {
-				System.out.println("Row Test");
-				ArrayList<Cell> cellList = new ArrayList<Cell>();
+				ArrayList<Cell> newRow = new ArrayList<Cell>();
 				for(int j = 0; j < size; j++) {
-					System.out.println("Cell Test");
+					System.out.println("I: "+ i + " J: " + j);
 					int exitCheck = 0;
-					boolean wallUp = false;
-					boolean wallDown = false;
-					boolean wallLeft = false;
-					boolean wallRight = false;
-					int wallCount = 0;
 					if(i == exitPos && j == 0) {
 						exitCheck = 1;
 					}
-					CellComponents up = CellComponents.APERTURE;
-					CellComponents down = CellComponents.APERTURE;
-					CellComponents left = CellComponents.APERTURE;
-					CellComponents right = CellComponents.APERTURE;
-					Cell above = null;
-					Cell below = null;
-					Cell toLeft = null;
-					Cell toRight = null;
-					if(rowList != null && rowList.size() > 0 && i < rowList.size()) {
-						if(i != 0) {
-							above = rowList.get(i-1).getCells().get(j);
-						}
-						if(i+1 < rowList.size()) {
-							//System.out.println(i+1 + " " + j + " " + size);
-							below = rowList.get(i+1).getCells().get(j);
-						}
-						if(j != 0) {
-							toLeft = rowList.get(i).getCells().get(j-1);
-						}
-						if(j+1 < rowList.size()) {
-							System.out.println(rowList.size() + " " + j);
-							toRight = rowList.get(i).getCells().get(j+1);
-						}
-					}
-					if(i == 0 || (above != null && above.getDown() == CellComponents.WALL)) {
+					CellComponents up = null;
+					CellComponents down = null;
+					CellComponents left = null;
+					CellComponents right = null;
+					boolean newWall = false;
+					if(i == 0) {
 						up = CellComponents.WALL;
-						wallUp = true;
-						wallCount++;
 					}
-					else if(i == size-1 || (below != null && below.getUp() == CellComponents.WALL)) {
+					else if(i == size-1) {
+						up = rowList.get(i-1).getCells().get(j).getDown();
 						down = CellComponents.WALL;
-						wallDown = true;
-						wallCount++;
 					}
-					if(j == 0 || (toLeft != null && toLeft.getRight() == CellComponents.WALL)) {
+					else {
+						up = rowList.get(i-1).getCells().get(j).getDown();
+					}
+					if(j == 0) {
 						left = CellComponents.WALL;
-						wallLeft = true;
-						wallCount++;
-					}
-					else if(j == size-1 || (toRight != null && toRight.getLeft() == CellComponents.WALL)) {
-						right = CellComponents.WALL;
-						wallRight = true;
-						wallCount++;
-					}
-					if(exitCheck == 1) {
-						left = CellComponents.EXIT;
-					}
-					if(above != null && above.getWallCount() >= 3) {
-						wallCount++;
-					}
-					if(below != null && below.getWallCount() >= 3) {
-						wallCount++;
-					}
-					if(toLeft != null && toLeft.getWallCount() >= 3) {
-						wallCount++;
-					}
-					if(toRight != null && toRight.getWallCount() >= 3) {
-						wallCount++;
-					}
-					if(wallCount < 3 && exitCheck != 1) {
-						int randomNum = 3 - wallCount;
-						int runCond = random.nextInt(randomNum+1);
-						while(runCond != 0 && wallCount < 3) {
-							int wallPos = random.nextInt(4);
-							System.out.println("Wall Test, runCond: " + runCond + " wallPos: " + wallPos + " wallCount: " + wallCount);
-							switch(wallPos) {
-								case 0:
-									if(wallUp == false && (above == null || (above != null && above.getWallCount() < 3))) {
-										up = CellComponents.WALL;
-										wallUp = true;
-										runCond--;
-										wallCount++;
-									}
-									break;
-								case 1:
-									if(wallRight == false && (toRight == null || (toRight != null && toRight.getWallCount() < 3))) {
-										right = CellComponents.WALL;
-										wallRight = true;
-										runCond--;
-										wallCount++;
-									}
-									break;
-								case 2:
-									if(wallDown == false && (below == null || (below != null && below.getWallCount() < 3))) {
-										down = CellComponents.WALL;
-										wallDown = true;
-										runCond--;
-										wallCount++;
-									}
-									break;
-								case 3:
-									if(wallLeft == false && (toLeft == null || (toLeft != null && toLeft.getWallCount() < 3))) {
-										left = CellComponents.WALL;
-										wallLeft = true;
-										runCond--;
-										wallCount++;
-									}
-									break;
-								default:
-									break;
-							}
+						if(exitCheck == 1) {
+							left = CellComponents.EXIT;
 						}
 					}
+					else if(j == size-1) {
+						
+						left = rowList.get(i).getCells().get(j-1).getRight();
+						right = CellComponents.WALL;
+					}
+					else {
+						
+						left = rowList.get(i).getCells().get(j-1).getRight();
+					}
+					if(down == null && right == null) {
+						int randWall = random.nextInt(3);
+						if(randWall == 0) {
+							down = CellComponents.WALL;
+							right = CellComponents.APERTURE;
+						}
+						else if(randWall == 1) {
+							right = CellComponents.APERTURE;
+							down = CellComponents.APERTURE;
+						}
+						else {
+							down = CellComponents.APERTURE;
+							right = CellComponents.APERTURE;
+						}
+					}
+					else if(down == null && right == CellComponents.WALL) {
+						down = CellComponents.APERTURE;
+					}
+					else if(down == CellComponents.WALL && right == null) {
+						right = CellComponents.APERTURE;
+					}
+					System.out.println("LEFT: " + left + " RIGHT: " + right + " UP: " + up + " DOWN: " + down );
 					Cell newCell = new Cell(left, right, up, down);
-					cellList.add(newCell);
+					if(j != 0) {
+						rowList.get(i).getCells().add(newCell);
+					}
+					else {
+						newRow.add(newCell);
+						Row row = new Row(newRow);
+						rowList.add(row);
+					}
 				}
-				Row newRow = new Row(cellList);
-				rowList.add(newRow);
+				//Row row = new Row(newRow);
+				//rowList.add(row);
 			}
-			Grid newGrid = new Grid(rowList);
-			this.grid = newGrid;
+			this.grid = new Grid(rowList);
 			return this.grid;
 		}
 	}
-	
+	/**
+	 * make a move on the game board
+	 * @param move to be made (up, down, left, right)
+	 * @param player current player representing the position of the actor to be moved
+	 * @return true if the move is successful, false otherwise
+	 */
 	public boolean play(Movement move, Player player){
+		if(player == null) {
+			return false;
+		}
 		switch(move){
 			case UP:
 				if(player.getCurrentCell().getUp() == CellComponents.APERTURE) {
@@ -279,11 +251,17 @@ public class Game {
 					System.out.println("Wall Hit!");
 				}
 				break;
+			case null:
+				return false;
 			default:
 				break;
 		}
 		return false;
 	}
+	/**
+	 * print the current game board
+	 * @param player used to print the position of the actor
+	 */
 	public void printGame(Player player) {
 		System.out.println();
 		for(int i = 0; i < this.grid.getRows().size(); i++) {
@@ -301,5 +279,14 @@ public class Game {
 			System.out.println();
 		}
 		System.out.println();
+	}
+	/**
+	 * String representation of the current Game state including the inner grid, rows, and cells
+	 */
+	@Override
+	public String toString() {
+		String retString = "Game [grid=" + this.grid.toString() + "]";
+		System.out.println(retString);
+		return retString;
 	}
 }

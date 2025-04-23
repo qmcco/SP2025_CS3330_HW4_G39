@@ -1,12 +1,20 @@
 package hw4.maze;
-
+/**
+ * class to represent individual cells of the game board
+ */
 public class Cell {
 	private CellComponents up;
 	private CellComponents down;
 	private CellComponents left;
 	private CellComponents right;
 	private int wallCount;
-	
+	/**
+	 * constructor keeps track of the number of walls in the cell to be used in the Game random grid generation
+	 * @param left component to the left of the cell
+	 * @param right component to the right of the cell
+	 * @param up component above the cell
+	 * @param down component below the cell
+	 */
 	public Cell(CellComponents left, CellComponents right, CellComponents up, CellComponents down) {
 		if(up == CellComponents.WALL) {
 			wallCount++;
@@ -25,11 +33,17 @@ public class Cell {
 		this.left = left;
 		this.right = right;
 	}
-	
+	/**
+	 * get up value
+	 * @return up
+	 */
 	public CellComponents getUp() {
 		return up;
 	}
-	
+	/**
+	 * if the changed up value is a wall, subtract from count, if the new value is a wall, add to count, if the new value is null, set up to Wall
+	 * @param newUp new value of up
+	 */
 	public void setUp(CellComponents newUp) {
 		if(this.up == CellComponents.WALL) {
 			wallCount--;
@@ -37,7 +51,13 @@ public class Cell {
 		if(newUp == CellComponents.WALL) {
 			wallCount++;
 		}
-		this.up = newUp;
+		if(newUp != null) {
+			this.up = newUp;
+		}
+		else {
+			this.up = CellComponents.WALL;
+			wallCount++;
+		}
 	}
 	
 	public CellComponents getDown() {
@@ -51,7 +71,13 @@ public class Cell {
 		if(newDown == CellComponents.WALL) {
 			wallCount++;
 		}
-		this.down = newDown;
+		if(newDown != null) {
+			this.down = newDown;
+		}
+		else {
+			this.down = CellComponents.WALL;
+			wallCount++;
+		}
 	}
 	
 	public CellComponents getLeft() {
@@ -65,7 +91,13 @@ public class Cell {
 		if(newLeft == CellComponents.WALL) {
 			wallCount++;
 		}
-		this.left = newLeft;
+		if(newLeft != null) {
+			this.left = newLeft;
+		}
+		else {
+			this.left = CellComponents.WALL;
+			wallCount++;
+		}
 	}
 	
 	public CellComponents getRight() {
@@ -79,11 +111,23 @@ public class Cell {
 		if(newRight == CellComponents.WALL) {
 			wallCount++;
 		}
-		this.right = newRight;
+		if(newRight != null) {
+			this.right = newRight;
+		}
+		else {
+			this.right = CellComponents.WALL;
+			wallCount++;
+		}
 	}
 	public int getWallCount() {
 		return wallCount;
 	}
-	
+	/**
+	 * string representation of a cell and its components
+	 */
+	@Override
+	public String toString() {
+		return "Cell [left=" + this.getLeft() + ", right=" + this.getRight() + ", up=" + this.getUp() + ", down=" + this.getDown() + "]";
+	}
 	
 }

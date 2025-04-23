@@ -24,7 +24,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 
 
-class GameTest {
+public class GameTest {
 
 	private static Game game;
 	private static Grid grid;

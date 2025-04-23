@@ -16,7 +16,7 @@ import hw4.maze.Grid;
 import hw4.maze.Row;
 import hw4.player.Player;
 
-class PlayerTest {
+public class PlayerTest {
 	
 	private static Grid grid;
 	protected static Player player;
